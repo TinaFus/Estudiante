@@ -16,8 +16,8 @@ namespace EstudentAPI.Tests.Controllers.EstudentController
             var mockService = new Mock<IStudentService>();
             mockService.Setup(s => s.GetAll()).Returns(new List<Estudiante>
             {
-                new Estudiante { CI = 1, Nombre = "Luis", Nota = 80 },
-                new Estudiante { CI = 2, Nombre = "Diana", Nota = 45 }
+                new Estudiante { CI = 123, Nombre = "Dariem", Nota = 85 },
+                new Estudiante { CI = 456, Nombre = "Alessia", Nota = 49 }
             });
 
             var controller = new EstudentAPI.Controllers.EstudentController(mockService.Object);
@@ -27,8 +27,8 @@ namespace EstudentAPI.Tests.Controllers.EstudentController
 
             // Assert
             Assert.Equal(2, result.Count);
-            Assert.Equal("Luis", result[0].Nombre);
-            Assert.Equal("Diana", result[1].Nombre);
+            Assert.Equal("Dariem", result[0].Nombre);
+            Assert.Equal("Alessia", result[1].Nombre);
         }
 
         [Fact]
@@ -36,26 +36,26 @@ namespace EstudentAPI.Tests.Controllers.EstudentController
         {
             // Arrange
             var mockService = new Mock<IStudentService>();
-            var estudiante = new Estudiante { CI = 10, Nombre = "Laura", Nota = 90 };
+            var estudiante = new Estudiante { CI = 789, Nombre = "Alondra", Nota = 87 };
 
-            mockService.Setup(s => s.GetById(10)).Returns(estudiante);
+            mockService.Setup(s => s.GetById(789)).Returns(estudiante);
 
             var controller = new EstudentAPI.Controllers.EstudentController(mockService.Object);
 
             // Act
-            var result = controller.GetById(10);
+            var result = controller.GetById(789);
 
             // Assert
             Assert.NotNull(result); // <- esto garantiza que no sea null
-            Assert.Equal("Laura", result!.Nombre);
-            Assert.Equal(90, result.Nota);
+            Assert.Equal("Alondra", result!.Nombre);
+            Assert.Equal(87, result.Nota);
         }
 
         [Fact]
         public void HasApproved_ReturnsTrue_WhenNotaIsSufficient()
         {
             // Arrange
-            var estudiante = new Estudiante { CI = 1, Nombre = "Marco", Nota = 60 };
+            var estudiante = new Estudiante { CI = 101, Nombre = "Eric", Nota = 58 };
             var mockService = new Mock<IStudentService>();
             mockService.Setup(s => s.HasApproved(estudiante)).Returns(true);
 
