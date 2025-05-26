@@ -46,7 +46,8 @@ namespace EstudentAPI.Tests.Controllers.EstudentController
             var result = controller.GetById(10);
 
             // Assert
-            Assert.Equal("Laura", result.Nombre);
+            Assert.NotNull(result); // <- esto garantiza que no sea null
+            Assert.Equal("Laura", result!.Nombre);
             Assert.Equal(90, result.Nota);
         }
 
