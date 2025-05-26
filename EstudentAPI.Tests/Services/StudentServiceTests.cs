@@ -7,31 +7,55 @@ namespace EstudentAPI.Tests.Services
     public class StudentServiceTests
     {
         [Fact]
-        public void HasApproved_NotaMayorIgual51_ReturnsTrue()
+        public void HasApproved_DariemConNotaAlta_ReturnsTrue()
         {
-            // Arrange
-            var estudiante = new Estudiante { CI = 1, Nombre = "Juan", Nota = 70 };
+            var estudiante = new Estudiante { CI = 1001, Nombre = "Dariem", Nota = 85 };
             var service = new StudentService();
 
-            // Act
             var resultado = service.HasApproved(estudiante);
 
-            // Assert
             Assert.True(resultado);
+            Assert.Equal("Dariem", estudiante.Nombre);
+            Assert.Equal(1001, estudiante.CI);
         }
 
         [Fact]
-        public void HasApproved_NotaMenor51_ReturnsFalse()
+        public void HasApproved_EricConNotaLimite_ReturnsTrue()
         {
-            // Arrange
-            var estudiante = new Estudiante { CI = 2, Nombre = "Ana", Nota = 45 };
+            var estudiante = new Estudiante { CI = 1002, Nombre = "Eric", Nota = 51 };
             var service = new StudentService();
 
-            // Act
             var resultado = service.HasApproved(estudiante);
 
-            // Assert
+            Assert.True(resultado);
+            Assert.Equal("Eric", estudiante.Nombre);
+            Assert.Equal(1002, estudiante.CI);
+        }
+
+        [Fact]
+        public void HasApproved_AlessiaReprobada_ReturnsFalse()
+        {
+            var estudiante = new Estudiante { CI = 1003, Nombre = "Alessia", Nota = 45 };
+            var service = new StudentService();
+
+            var resultado = service.HasApproved(estudiante);
+
             Assert.False(resultado);
+            Assert.Equal("Alessia", estudiante.Nombre);
+            Assert.Equal(1003, estudiante.CI);
+        }
+
+        [Fact]
+        public void HasApproved_AlondraReprobada_ReturnsFalse()
+        {
+            var estudiante = new Estudiante { CI = 1004, Nombre = "Alondra", Nota = 20 };
+            var service = new StudentService();
+
+            var resultado = service.HasApproved(estudiante);
+
+            Assert.False(resultado);
+            Assert.Equal("Alondra", estudiante.Nombre);
+            Assert.Equal(1004, estudiante.CI);
         }
     }
 }

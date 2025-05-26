@@ -11,8 +11,8 @@ namespace EstudentAPI.Tests.Stubs
         {
             _estudiantes = new List<Estudiante>
             {
-                new Estudiante { CI = 1, Nombre = "Juan", Nota = 75 },
-                new Estudiante { CI = 2, Nombre = "Ana", Nota = 40 }
+                new Estudiante { CI = 1001, Nombre = "Dariem", Nota = 85 },
+                new Estudiante { CI = 1002, Nombre = "Alessia", Nota = 45 }
             };
         }
 

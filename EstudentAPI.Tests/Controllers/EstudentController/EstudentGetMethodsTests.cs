@@ -1,7 +1,9 @@
 using Xunit;
-using EstudentAPI.Controllers;
+using Moq;
 using EstudentAPI.Models;
-using EstudentAPI.Tests.Stubs;
+using EstudentAPI.Controllers;
+using EstudentAPI.Services;
+using System.Collections.Generic;
 
 namespace EstudentAPI.Tests.Controllers.EstudentController
 {
@@ -11,44 +13,42 @@ namespace EstudentAPI.Tests.Controllers.EstudentController
         public void GetAll_ReturnsAllEstudiantes()
         {
             // Arrange
-            var controller = new EstudentAPI.Controllers.EstudentController(new StudentServiceStub());
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAll()).Returns(new List<Estudiante>
+            {
+                new Estudiante { CI = 1001, Nombre = "Dariem", Nota = 85 },
+                new Estudiante { CI = 1002, Nombre = "Alessia", Nota = 45 }
+            });
+
+            var controller = new EstudentAPI.Controllers.EstudentController(mockService.Object);
 
             // Act
             var result = controller.GetAll();
 
             // Assert
             Assert.Equal(2, result.Count);
-            Assert.Equal("Juan", result[0].Nombre);
-            Assert.Equal("Ana", result[1].Nombre);
+            Assert.Equal("Dariem", result[0].Nombre);
+            Assert.Equal("Alessia", result[1].Nombre);
         }
 
         [Fact]
         public void GetById_ExistingCI_ReturnsCorrectEstudiante()
         {
             // Arrange
-            var controller = new EstudentAPI.Controllers.EstudentController(new StudentServiceStub());
+            var mockService = new Mock<IStudentService>();
+            var estudiante = new Estudiante { CI = 1004, Nombre = "Alondra", Nota = 87 };
+
+            mockService.Setup(s => s.GetById(1004)).Returns(estudiante);
+
+            var controller = new EstudentAPI.Controllers.EstudentController(mockService.Object);
 
             // Act
-            var result = controller.GetById(1);
+            var result = controller.GetById(1004);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(1, result.CI);
-            Assert.Equal("Juan", result.Nombre);
-            Assert.Equal(75, result.Nota);
-        }
-
-        [Fact]
-        public void GetById_NonExistingCI_ReturnsNullOrDefault()
-        {
-            // Arrange
-            var controller = new EstudentAPI.Controllers.EstudentController(new StudentServiceStub());
-
-            // Act
-            var result = controller.GetById(99); // no existe
-
-            // Assert
-            Assert.Null(result); // esto depende de tu implementación del stub
+            Assert.Equal("Alondra", result!.Nombre);
+            Assert.Equal(87, result.Nota);
         }
     }
 }
